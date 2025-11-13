@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+  </head>
+  <body>
+    <main>
+
+        <div class="inner-voice-container" style="display: none;">
+            <audio><source src="click.mp3" type="audio/mp3"></audio>
+            <div class="inner-voice-header">Inner Voice:</div>
+            <div class="inner-voice-voice">I need something to open this car...</div>
+        </div>
+
+        
+
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@700&family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@400;700&family=Signika:wght@500&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Geist:wght@100..900&display=swap');
+
+
+            body{
+                overflow: hidden;
+                font-family: 'Poppins', sans-serif;
+                -webkit-user-select: none;
+                -moz-user-select: none;  
+                -ms-user-select: none; 
+                user-select: none;
+                color: white;
+            }
+
+            .inner-voice-container{
+                display: flex;
+                position: absolute;
+                left: 50%;
+                bottom: 1vw;
+                transform: translate(-50%, -1vw);
+            }
+
+            .inner-voice-header{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(1, 0, 15, 0.5);
+                font-size: 0.7vw;
+                height: 2vw;
+                padding-left: 1vw;
+                padding-right: 1vw;
+                width: auto;
+                color: rgb(255, 167, 35);
+            }
+
+            .inner-voice-voice{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 2vw;
+                padding-right: 1vw;
+                text-overflow:ellipsis;
+                overflow: none;
+                width: 1vw;
+                background: rgba(1, 0, 15, 0.5);
+                font-size: 0.7vw;
+            }
+
+
+        </style>
+
+
+
+        <script>
+            function showInnerVoice(innerVoice){
+                 new Audio('click.mp3').play();
+                $('.inner-voice-container').fadeIn(250)
+                    let el = $('.inner-voice-voice');
+                    el.text(innerVoice)
+                    let currentWidth = el.width();   
+
+                    el.css('width', 'auto');
+                    let autoWidth = el.width();     
+
+                    el.width(currentWidth);       
+                    el.animate({width: autoWidth}, 500); 
+                setTimeout(() => {
+                    $('.inner-voice-container').fadeOut(500)
+                    el.animate({width: '1vw'}, 500, function(){
+                    }); 
+                }, 3500);
+            }
+
+            window.addEventListener('message', (event) => {
+                if (event.data.action === 'INNER_VOICE') {
+                    showInnerVoice(event.data.data)
+                    $('.inner-voice-header').text(event.data.header)
+                }
+            })
+        </script>
+
+    </main>
+    <script src="index.js"></script>
+  </body>
+</html>
